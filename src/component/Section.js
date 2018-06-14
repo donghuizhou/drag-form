@@ -3,6 +3,8 @@ import { DropTarget } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { Input, Select, Button, Modal, Form } from 'antd';
 
+const FormItem = Form.Item;
+
 const sectionTarget = {
   drop (props, monitor, component) {
     const { x, y } = monitor.getClientOffset();
@@ -58,7 +60,8 @@ class Section extends Component {
     return connectDropTarget(
       <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red' }}>
         <Modal title="提示" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
-
+          <FormItem label="行"><Input /></FormItem>
+          <FormItem label="列"><Input /></FormItem>
         </Modal>
       </div>
     );
