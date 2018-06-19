@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 
 const sectionTarget = {
   drop (props, monitor, component) {
+    console.log(component)
     const { tagName } = monitor.getItem();
     component.renderElement(tagName);
   }
@@ -32,11 +33,20 @@ class Section extends Component {
     this.columnsChange = this.columnsChange.bind(this);
     this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.generateButtonSec = this.generateButtonSec.bind(this);
+    this.generateTableSec = this.generateTableSec.bind(this);
   }
   renderElement (ele, posX, posY) {
     switch (ele) {
       case 'SearchSec':
-        this.setState({rows: '', columns: '', gridModalVisible: true})
+        this.setState({rows: '', columns: '', gridModalVisible: true});
+        break;
+      case 'ButtonSec'  :
+        this.generateButtonSec();
+        break;
+      case 'TableSec'  :
+        this.generateTableSec();
+        break;
     }
   }
   createNodes ({tagName, attrs, children}) {
@@ -45,6 +55,27 @@ class Section extends Component {
       attrs,
       children instanceof Array ? children.map(val => this.createNodes(val)) : children
     );
+  }
+  generateButtonSec () {
+    // 组装按钮区的数据结构
+    let tmpNode = { tagName: 'div', attrs: { id: 'buttonWrap', key: 'buttonWrap', style: {background: '#FFE4C4', height: '50px', border: '1px dashed #BEBEBE', borderWidth: '1px 0 1px 0'} }, children: [] };
+    let prevNodes = Object.assign({}, this.state.nodes);
+    prevNodes.children.push(tmpNode);
+    this.setState({nodes: prevNodes});
+  }
+  generateTableSec () {
+    // 组装表格区的数据结构
+    let columns = [
+      { title: 'name', dataIndex: 'name', key: 'name' },
+      { title: 'age', dataIndex: 'age', key: 'age' },
+      { title: 'city', dataIndex: 'city', key: 'city' }
+    ];
+    var tmpNode = { tagName: 'div', attrs: { id: 'tableWrap', key: 'tableWrap' }, children: [
+      { tagName: Table, attrs: { columns, key: 'table' }, children: null }
+    ]}
+    let prevNodes = Object.assign({}, this.state.nodes);
+    prevNodes.children.push(tmpNode);
+    this.setState({nodes: prevNodes});
   }
   rowsChange (e) {
     this.setState({rows: e.target.value});
@@ -69,8 +100,8 @@ class Section extends Component {
       tmpNode['children'].push(rowNode);
     }
     let prevNodes = Object.assign({}, this.state.nodes);
-    prevNodes.children.push(tmpNode)
-    this.setState({nodes: prevNodes})
+    prevNodes.children.push(tmpNode);
+    this.setState({nodes: prevNodes});
   }
   handleCancel () {
     this.setState({gridModalVisible: false});
@@ -82,7 +113,7 @@ class Section extends Component {
       wrapperCol: { span: 8 }
     };
     return connectDropTarget(
-      <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red' }}>
+      <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red', overflowY: 'auto' }}>
         <Modal title="设置栅格布局" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
           <Form layout="inline">
             <FormItem {...formItemLayout} label="行">
