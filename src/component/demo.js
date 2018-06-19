@@ -1,3 +1,89 @@
+<div>
+  <Row>
+    <Col span={12}>col-12</Col>
+    <Col span={12}>col-12</Col>
+  </Row>
+  <Row>
+    <Col span={8}>col-8</Col>
+    <Col span={8}>col-8</Col>
+    <Col span={8}>col-8</Col>
+  </Row>
+  <Row>
+    <Col span={6}>col-6</Col>
+    <Col span={6}>col-6</Col>
+    <Col span={6}>col-6</Col>
+    <Col span={6}>col-6</Col>
+  </Row>
+</div>
+
+import { Form, Icon, Input, Button } from 'antd';
+const FormItem = Form.Item;
+
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
+
+class HorizontalLoginForm extends React.Component {
+  componentDidMount() {
+    // To disabled submit button at the beginning.
+    this.props.form.validateFields();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+  render() {
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+
+    // Only show error after a field is touched.
+    const userNameError = isFieldTouched('userName') && getFieldError('userName');
+    const passwordError = isFieldTouched('password') && getFieldError('password');
+    return (
+      <Form layout="inline" onSubmit={this.handleSubmit}>
+        <FormItem
+          validateStatus={userNameError ? 'error' : ''}
+          help={userNameError || ''}
+        >
+          {getFieldDecorator('userName', {
+            rules: [{ required: true, message: 'Please input your username!' }],
+          })(
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+          )}
+        </FormItem>
+        <FormItem
+          validateStatus={passwordError ? 'error' : ''}
+          help={passwordError || ''}
+        >
+          {getFieldDecorator('password', {
+            rules: [{ required: true, message: 'Please input your Password!' }],
+          })(
+            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+          )}
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={hasErrors(getFieldsError())}
+          >
+            Log in
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
+}
+
+const WrappedHorizontalLoginForm = Form.create()(HorizontalLoginForm);
+
+ReactDOM.render(<WrappedHorizontalLoginForm />, mountNode);
+
+
+
 import { Form, Row, Col, Input, Button, Icon } from 'antd';
 const FormItem = Form.Item;
 
@@ -203,3 +289,37 @@ const data = [{
 }];
 
 ReactDOM.render(<Table columns={columns} dataSource={data} />, mountNode);
+
+
+
+  class Component extends React.Component {
+    constructor (props) {
+      super(props)
+      this.state = {
+        doms: {
+          tagName: 'div',
+          attr: { id: 'divID1', className: 'divClass1' },
+          children: [
+            { tagName: 'div', attr: { id: 'divID2', className: 'divClass2' }, children: 'hello' },
+            { tagName: 'div', attr: { id: 'divID3', className: 'divClass3' }, children: 'world' },
+          ]
+        }
+      }
+      this.createNodes = this.createNodes.bind(this)
+    }
+    createNodes ({tagName, attr, children}) {
+      return React.createElement(
+        tagName,
+        attr,
+        children instanceof Array ? children.map(val => this.createNodes(val)) : children
+      )
+    }
+    render () {
+      return this.createNodes(this.state.doms)
+    }
+  }  
+
+  ReactDOM.render(
+    <Component />,
+    document.getElementById('root')
+  )
