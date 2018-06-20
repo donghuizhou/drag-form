@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'
+import { ItemTypes } from '../ItemTypes'
 
-const searchSecSource = {
+const tableSecSource = {
   beginDrag (props, monitor, component) {
     return {
-      tagName: 'SearchSec'
+      tagName: 'TableSec'
     };
   }
 };
@@ -16,13 +16,13 @@ function collect (connect, monitor) {
   };
 }
 
-class SearchSec extends Component {
+class TableSec extends Component {
   render () {
     const  { connectDragSource } = this.props;
     return connectDragSource(
-      <div className="list-item">搜索区域</div>
+      <div className="list-item">表格区域</div>
     );
   }
 }
 
-export default DragSource(ItemTypes.FORMELEMENT, searchSecSource, collect)(SearchSec);
+export default DragSource(ItemTypes.DRAGFORM, tableSecSource, collect)(TableSec);

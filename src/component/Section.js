@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { Input, Select, Button, Modal, Form, Row, Col, Table } from 'antd';
@@ -7,15 +8,22 @@ const FormItem = Form.Item;
 
 const sectionTarget = {
   drop (props, monitor, component) {
-    console.log(component)
+    // console.log(props)
     const { tagName } = monitor.getItem();
     component.renderElement(tagName);
+  },
+  hover (props, monitor, component) {
+    console.log('props: ', props)
+    console.log('monitor: ', monitor)
+    console.log('components: ', component)
   }
 };
 
 function collect (connect, monitor) {
   return {
-    connectDropTarget: connect.dropTarget()
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop()
   }
 }
 
@@ -107,7 +115,8 @@ class Section extends Component {
     this.setState({gridModalVisible: false});
   }
   render () {
-    const { connectDropTarget } = this.props;
+    const { connectDropTarget, isOver, canDrop } = this.props;
+    // console.log('isOver: ', isOver, 'canDrop: ', canDrop)
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 }
@@ -130,4 +139,8 @@ class Section extends Component {
   }
 }
 
-export default DropTarget(ItemTypes.FORMELEMENT, sectionTarget, collect)(Section);
+// Section.propTypes = {
+//   isOver: PropTypes.bool.isRequired
+// };
+
+export default DropTarget(ItemTypes.DRAGFORM, sectionTarget, collect)(Section);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd';
-import Input from './Input';
-import Select from './Select';
-import Button from './Button';
-import SearchSec from './SearchSec';
-import ButtonSec from './ButtonSec';
-import TableSec from './TableSec';
+import Input from './form-elements/Input';
+import Select from './form-elements/Select';
+import Button from './form-elements/Button';
+import SearchSec from './form-elements/SearchSec';
+import ButtonSec from './form-elements/ButtonSec';
+import TableSec from './form-elements/TableSec';
 
 const TabPane = Tabs.TabPane;
 

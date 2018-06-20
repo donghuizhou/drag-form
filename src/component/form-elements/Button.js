@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'
+import { ItemTypes } from '../ItemTypes'
 
 const buttonSource = {
   beginDrag (props, monitor, component) {
@@ -26,4 +26,4 @@ class Button extends Component {
   }
 }
 
-export default DragSource(ItemTypes.FORMELEMENT, buttonSource, collect)(Button);
+export default DragSource(ItemTypes.DRAGFORM, buttonSource, collect)(Button);

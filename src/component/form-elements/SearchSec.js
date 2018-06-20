@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'
+import { ItemTypes } from '../ItemTypes'
 
-const inputSource = {
+const searchSecSource = {
   beginDrag (props, monitor, component) {
     return {
-      tagName: 'Input'
+      tagName: 'SearchSec'
     };
   }
 };
@@ -16,13 +16,13 @@ function collect (connect, monitor) {
   };
 }
 
-class Input extends Component {
+class SearchSec extends Component {
   render () {
     const  { connectDragSource } = this.props;
     return connectDragSource(
-      <div className="list-item">输入框</div>
+      <div className="list-item">搜索区域</div>
     );
   }
 }
 
-export default DragSource(ItemTypes.FORMELEMENT, inputSource, collect)(Input);
+export default DragSource(ItemTypes.DRAGFORM, searchSecSource, collect)(SearchSec);

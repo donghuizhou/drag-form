@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'
+import { ItemTypes } from '../ItemTypes'
 
 const selectSource = {
   beginDrag (props, monitor, component) {
@@ -25,4 +25,4 @@ class Select extends Component {
   }
 }
 
-export default DragSource(ItemTypes.FORMELEMENT, selectSource, collect)(Select);
+export default DragSource(ItemTypes.DRAGFORM, selectSource, collect)(Select);

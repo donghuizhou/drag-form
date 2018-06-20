@@ -1,3 +1,3 @@
 export const ItemTypes = {
-  FORMELEMENT: 'formelement'
+  DRAGFORM: 'dragform'
 }
