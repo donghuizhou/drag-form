@@ -8,13 +8,16 @@ const FormItem = Form.Item;
 
 const sectionTarget = {
   drop (props, monitor, component) {
-    console.log(component.isOverChange())
+    // console.log(isOverFlag);
+    // console.log(component.isOverChange())
     // console.log(monitor.getItemType())
     // console.log(props)
     const { tagName } = monitor.getItem();
     component.renderElement(tagName);
   },
   hover (props, monitor, component) {
+    console.log(monitor.getItem())
+    // console.log(isOverFlag);
     // console.log(props.isOver)
     // console.log('props: ', props)
     // console.log('monitor: ', monitor)
@@ -120,7 +123,8 @@ class Section extends Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 }
     };
-    this.isOverChange(isOver);
+    // this.isOverChange(isOver);
+    // isOverFlag = isOver;
     return connectDropTarget(
       <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red', overflowY: 'auto' }}>
         <Modal title="设置栅格布局" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
