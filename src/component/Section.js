@@ -8,14 +8,17 @@ const FormItem = Form.Item;
 
 const sectionTarget = {
   drop (props, monitor, component) {
+    console.log(component.isOverChange())
+    // console.log(monitor.getItemType())
     // console.log(props)
     const { tagName } = monitor.getItem();
     component.renderElement(tagName);
   },
   hover (props, monitor, component) {
-    console.log('props: ', props)
-    console.log('monitor: ', monitor)
-    console.log('components: ', component)
+    // console.log(props.isOver)
+    // console.log('props: ', props)
+    // console.log('monitor: ', monitor)
+    // console.log('components: ', component)
   }
 };
 
@@ -34,17 +37,11 @@ class Section extends Component {
       nodes: { tagName: 'div', attrs: {id: 'wrap'}, children: [] },
       rows: '',
       columns: '',
-      gridModalVisible: false
+      gridModalVisible: false,
+      overSection: false
     };
-    this.renderElement = this.renderElement.bind(this);
-    this.rowsChange = this.rowsChange.bind(this);
-    this.columnsChange = this.columnsChange.bind(this);
-    this.handleOk = this.handleOk.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.generateButtonSec = this.generateButtonSec.bind(this);
-    this.generateTableSec = this.generateTableSec.bind(this);
   }
-  renderElement (ele, posX, posY) {
+  renderElement = (ele, posX, posY) => {
     switch (ele) {
       case 'SearchSec':
         this.setState({rows: '', columns: '', gridModalVisible: true});
@@ -57,21 +54,24 @@ class Section extends Component {
         break;
     }
   }
-  createNodes ({tagName, attrs, children}) {
+  isOverChange = (isOver) => {
+    // return isOver;
+  }
+  createNodes = ({tagName, attrs, children}) => {
     return React.createElement(
       tagName,
       attrs,
       children instanceof Array ? children.map(val => this.createNodes(val)) : children
     );
   }
-  generateButtonSec () {
+  generateButtonSec = () => {
     // 组装按钮区的数据结构
     let tmpNode = { tagName: 'div', attrs: { id: 'buttonWrap', key: 'buttonWrap', style: {background: '#FFE4C4', height: '50px', border: '1px dashed #BEBEBE', borderWidth: '1px 0 1px 0'} }, children: [] };
     let prevNodes = Object.assign({}, this.state.nodes);
     prevNodes.children.push(tmpNode);
     this.setState({nodes: prevNodes});
   }
-  generateTableSec () {
+  generateTableSec = () => {
     // 组装表格区的数据结构
     let columns = [
       { title: 'name', dataIndex: 'name', key: 'name' },
@@ -85,13 +85,13 @@ class Section extends Component {
     prevNodes.children.push(tmpNode);
     this.setState({nodes: prevNodes});
   }
-  rowsChange (e) {
+  rowsChange = (e) => {
     this.setState({rows: e.target.value});
   }
-  columnsChange (e) {
+  columnsChange = (e) => {
     this.setState({columns: e.target.value});
   }
-  handleOk () {
+  handleOk = () => {
     this.setState({gridModalVisible: false});
     // 组装栅格的数据结构
     let tmpNode = { tagName: 'div', attrs: { id: 'searchWrap', key: 'searchWrap' }, children: [] }
@@ -111,16 +111,16 @@ class Section extends Component {
     prevNodes.children.push(tmpNode);
     this.setState({nodes: prevNodes});
   }
-  handleCancel () {
+  handleCancel = () => {
     this.setState({gridModalVisible: false});
   }
   render () {
     const { connectDropTarget, isOver, canDrop } = this.props;
-    // console.log('isOver: ', isOver, 'canDrop: ', canDrop)
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 }
     };
+    this.isOverChange(isOver);
     return connectDropTarget(
       <div style={{ display: 'relative', flex: 1, margin: '0 15px 0 0', border: '1px dashed red', overflowY: 'auto' }}>
         <Modal title="设置栅格布局" visible={this.state.gridModalVisible} onOk={this.handleOk} onCancel={this.handleCancel} cancelText={'取消'} okText={'确定'} >
