@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
 import { ItemTypes } from '../ItemTypes'
+import store from '../../redux/store';
+import { updateItem, canDrop } from '../../redux/actions';
 
 const buttonSource = {
   beginDrag (props, monitor, component) {
+    store.dispatch(updateItem('Button'));
     return {
       tagName: 'Button'
     };

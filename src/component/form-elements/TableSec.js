@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { DragSource } from 'react-dnd';
-import { ItemTypes } from '../ItemTypes'
+import { ItemTypes } from '../ItemTypes';
+import store from '../../redux/store';
+import { updateItem } from '../../redux/actions';
 
 const tableSecSource = {
   beginDrag (props, monitor, component) {
+    store.dispatch(updateItem('TableSec'));
     return {
       tagName: 'TableSec'
     };
