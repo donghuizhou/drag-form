@@ -7,5 +7,6 @@ import 'antd/dist/antd.css';
 
 ReactDOM.render(
   <App />,
-  document.getElementById('root'));
+  document.getElementById('root')
+);
 registerServiceWorker();
